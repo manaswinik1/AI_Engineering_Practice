@@ -1,0 +1,64 @@
+For more than three decades, outsourcing has rested on a simple economic idea: If work can be defined, standardized, monitored, and moved to a lower-cost labor market, someone else can often do it more cheaply.
+
+That idea no longer works.
+
+Generative AI is not just helping programmers write code faster or customer service agents answer questions more efficiently. It is changing the build-vs-buy logic for categories of work that companies once sent to third parties as a matter of course. The effect is showing up first in IT services, where the work is digital, measurable, and increasingly readable by machines. But the same logic applies, and the same trend is appearing, across finance, HR, procurement, customer operations, legal support, claims processing, analytics—indeed, most forms of business process outsourcing (BPO).
+
+This does not mean outsourcing is going away. Companies will continue to need external expertise, especially in areas like data engineering, cybersecurity, systems integration, and regulatory compliance, which require deep knowledge and large investments that are usually unrelated to a company’s core business. But AI will destroy the old model of outsourcing, the one built on labor arbitrage, offshore scale, rate cards, and long-duration contracts measured largely by headcount and service levels.
+
+Insight Center Collection
+Reimagining the Future of Business
+Practical insights for leading through rapid change.
+As a result, the structure of a business—what’s inside a company’s walls and what’s outside—will also change, in some ways dramatically.
+
+The Market Is Starting to See It
+In a single week in February 2026, roughly $10 billion of market value evaporated from India’s listed IT services companies. The Nifty IT index (the index of technology stocks maintained by the national Stock Exchange of India) fell more than 9% in five trading days. The trigger was the launch of a set of enterprise AI tools designed to automate contract review, compliance workflows, and coding. The deeper signal was something investors had been edging toward for two years. The bargain that built the modern outsourcing industry no longer holds.
+
+By May, Tata Consultancy Services, Infosys, and HCL Technologies were trading at multi-year lows. TCS, the bellwether of Indian IT, announced its largest layoffs ever: 12,000 jobs, roughly 2% of its workforce. In the business-process world the move was even sharper. Teleperformance, the world’s largest contact-center operator, saw its shares plunge after Klarna, a Swedish fintech, publicly claimed that an AI assistant had absorbed the work of 700 customer-service agents. Even Accenture, the gold standard of global services, saw its stock fall roughly 40% from its 52-week high.
+
+Markets are imperfect oracles, but they are rarely wrong about direction. Twenty years ago, Thomas Davenport argued in HBR that the standardization of business processes would “dramatically increase the level and breadth of outsourcing.” He was right. What is happening now is the reversal of that trend. Much of the work that was outsourced will come back in-house, where it will be automated by AI and overseen by small teams of experts. The cause is as simple as it is implacable. AI has changed the underlying economics. The nature-of-the-firm logic that led to outsourcing now leads away from it.
+
+Asking a Different Question
+For years, executives asked outsourcing questions at the function level. Should we outsource finance? Should we offshore application maintenance? Should we move HR operations to a BPO provider? Should we use a managed service for infrastructure? Because these processes had become commodified, executives based their answer primarily on cost.
+
+AI makes that level of analysis too blunt. AI follows the work, not the org chart. Leaders now need to examine tasks and workflows and base their answers on value as well as cost.
+
+The question to ask is which specific tasks and processes can be automated. In finance, invoice matching, reconciliations, close activities, variance analysis, collections outreach, policy questions, reporting, and audit support have different automation profiles. The same goes for tasks in HR, legal and compliance, and other functions.
+
+Consider four types of tasks:
+
+Routine, digital, high-volume tasks such as HR case triage, tier-one IT support, claims intake, and standard reports. These have high automation potential; AI can perform, draft, or route much of the work. The likely sourcing decision, therefore, is to automate internally or to keep with a vendor at sharply lower cost.
+Content rich, data sensitive tasks such as pricing analysis, customer retention, provider-payment analytics, procurement strategy, and product decisions. For work like this, AI increases the value of first-party data and business context. The probable best sourcing answer: Keep the work in-house, with selective outside support.
+Specialized but episodic tasks such as tax structuring, cyber incident response, enterprise resource planning (ERP) migration, actuarial model validation, labor law, and complex diligence. Here, AI increases expert leverage but does not remove the need for scarce expertise. It is likely to stay outsourced, but to smaller, higher-skill expert teams.
+Regulated, high-liability, judgment heavy tasks such as claims denials, legal sign-offs, lending decisions, clinical appeals, M&A advice, and compliance judgments. For such tasks, AI can prepare evidence, spot anomalies, and draft recommendations, but accountability must remain human. These lend themselves to a hybrid model: AI-supported work, internal accountability, external expert review, and governance through risk forums rather than simple service-level agreements.
+The tasks that AI automates best share several characteristics. The work product is digital. The task repeats at volume. The quality standard can be measured. The process relies on rules, precedent, documentation, structured data, or institutional knowledge. Many of these tasks no longer benefit from outsourcing and labor arbitrage, because AI can perform or accelerate a meaningful portion of the work.
+
+Getting Different Answers
+AI does not produce a single sourcing answer. But when the question is asked at the task and workflow level, different answers become possible. Here are examples from our work with clients:
+
+One global consumer products company recently assessed AI enablement and outsourcing options for finance across Japan and the United States. The first wave of agentic automation did not transform the entire function. It captured a modest value opportunity, roughly 10%, in about six months. But the result changed the conversation. The company had been asking which finance activities might be outsourced. After seeing early AI-enabled savings, leaders have begun developing a more ambitious AI-enabled finance model that significantly reduces the need to outsource.
+
+A global food company assessed finance, IT, and HR activities across the United States and Europe. Early AI pilots showed enough promise that BPO vendors came back with innovative and lower-cost proposals that applied AI where it fit, automated portions of the work, and outsourced what remained. In this case, AI did not remove the vendor from the equation. It changed the vendor’s role. That allowed the company to benefit from vendor expertise without having to build every AI capability internally.
+
+A large healthcare company was considering outsourcing claims management. Close analysis of individual tasks revealed that the important opportunities were not mainly labor savings; the larger value pools were in areas such as provider-payment errors, claims leakage, coding errors, duplicate payments, and contract-configuration issues. The company did not need to move large volumes of work to a vendor; it needed to equip its people with AI-enabled insights so they could see and act on value that had previously been hard to detect.
+
+Private equity firms are making the same shift. Historically, when a PE firm needed rapid cost reduction at a portfolio company, offshoring appeared early in the plan. Today, PE and portfolio company leaders first want to know which workflows can be automated. Only then do they decide what should be retained, outsourced, or redesigned. That sequence matters. Outsourcing can lock in the wrong operating model. Analyzing the work first reveals what is left, what skills are required, and who should perform it.
+
+What To Do Now
+The new model of outsourcing has immediate, practical implications for companies buying outsourced services and companies providing them. Buyers should act quickly in four areas:
+
+Decompose work to the task level: Do not ask only whether finance, HR, IT, legal, or claims should be outsourced. Ask which tasks inside those functions can be automated, augmented, retained, or moved.
+Reprice the work: Require vendors to show how AI changes cost, quality, cycle time, risk, and control. A lower offshore rate due to lower labor costs is no longer enough.
+Rewrite contracts: Build in productivity pass-through, outcome metrics, data rights, auditability, model-risk controls, and ownership of prompts, code, knowledge bases, and process documentation.
+Strengthen the retained organization: Companies do not need to rebuild large shared-service centers. But they do need people who understand the work, the data, the AI tools, and the business outcomes well enough to manage both agents and vendors.
+Providers cannot afford to be passive in the face of AI’s disruption of their old model. Technology spending is not going down; they have a chance to keep their share, but they must make some strategic choices:
+
+Cannibalize the old model before clients do it for you: Use AI to lower the cost of traditional services and share the productivity gains.
+Move upstream: Compete in architecture, data engineering, cybersecurity, governance, product management, workflow redesign, and business outcomes.
+Productize expertise: Build reusable agents, workflows, industry-specific playbooks, and analytics assets.
+Change the commercial model: Shift from labor-based pricing to outcomes, managed AI workflows, productivity guarantees, and gain sharing.
+Reshape the talent pyramid: The old model depended on large junior delivery teams. The new one will require more domain experts, engineers, architects, product owners, governance leaders, and change managers.
+Toward a New Kind of Organization
+The strategic question is no longer, “Where can this work be done most cheaply?” It is, “Which parts of this work should we own because AI makes them sources of speed, learning, control, and value?”
+
+That is a real reversal. Outsourcing turned many internal services into external costs. AI gives companies a chance to turn some of those services into engines of performance. The companies that move first will not simply replace vendors with machines. They will redesign the work, rebuild the retained capabilities that matter, and use external partners in more targeted, higher-value ways.
