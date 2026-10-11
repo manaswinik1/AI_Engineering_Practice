@@ -1,0 +1,7 @@
+python-dotenv
+anthropic
+openai
+sentence-transformers
+torch
+rank_bm25
+chromadb
