@@ -26,35 +26,57 @@ else:
 
 index=pc.Index(INDEX_NAME)
 
-
-chunks24=chunks=financial_data24['description'].tolist()
-embeddings24=model.encode(chunks).tolist()
-metadata24=financial_data24[['date','month','amount','merchant','category','subcategory','payment_method','transaction_type','is_recurring','need_or_want','city']].to_dict("records")
-vectors24=[
-    (txn_id, emb, {**meta, "text":chunk})
-    for txn_id, emb, meta, chunk in zip(financial_data24['transaction_id'],embeddings24, metadata24, chunks24)
-]
-chunks2526=chunks=financial_data2526['description'].tolist()
-embeddings2526=model.encode(chunks2526).tolist()
-metadata2526=financial_data2526[['date','month','amount','merchant','category','subcategory','payment_method','transaction_type','is_recurring','need_or_want','city']].to_dict("records")
-vectors2526=[
-    (txn_id, emb, {**meta, "text":chunk})
-    for txn_id, emb, meta, chunk in zip(financial_data2526['transaction_id'],embeddings2526, metadata2526, chunks2526)
-]
-
-index.upsert(vectors=vectors24, namespace="2024")
-index.upsert(vectors=vectors2526, namespace="2025-2026")
-print(index.describe_index_stats())
-
-print("Index populated")
+if index.describe_index_stats().total_vector_count ==0:
+    chunks24=chunks=financial_data24['description'].tolist()
+    embeddings24=model.encode(chunks).tolist()
+    metadata24=financial_data24[['date','month','amount','merchant','category','subcategory','payment_method','transaction_type','is_recurring','need_or_want','city']].to_dict("records")
+    vectors24=[
+        (txn_id, emb, {**meta, "text":chunk})
+        for txn_id, emb, meta, chunk in zip(financial_data24['transaction_id'],embeddings24, metadata24, chunks24)
+    ]
+    chunks2526=chunks=financial_data2526['description'].tolist()
+    embeddings2526=model.encode(chunks2526).tolist()
+    metadata2526=financial_data2526[['date','month','amount','merchant','category','subcategory','payment_method','transaction_type','is_recurring','need_or_want','city']].to_dict("records")
+    vectors2526=[
+        (txn_id, emb, {**meta, "text":chunk})
+        for txn_id, emb, meta, chunk in zip(financial_data2526['transaction_id'],embeddings2526, metadata2526, chunks2526)
+    ]
+    index.upsert(vectors=vectors24, namespace="2024")
+    index.upsert(vectors=vectors2526, namespace="2025-2026")
+    print(index.describe_index_stats())
+else:
+    print("Index populated")
 
 query="grocery spending"
 query_embedding=model.encode(query).tolist()
+
+print("\n=== Query: 'grocery spending' from 2024 ===")
 results=index.query(
     vector=query_embedding,
     top_k=3,
+    namespace="2024",
     include_metadata=True
 )
-
 for match in results['matches']:
+    print(f"Score: {match['score']:.3f} | {match['metadata']['text']}")
+
+print("\n=== Query: 'grocery spending' from 2025-2026 ===")
+results1=index.query(
+    vector=query_embedding,
+    top_k=3,
+    namespace="2025-2026",
+    include_metadata=True
+)
+for match in results1['matches']:
+    print(f"Score: {match['score']:.3f} | {match['metadata']['text']}")
+
+print("\n=== Query with filter (Dining Out/Groceries) ===")
+results2=index.query(
+    vector=query_embedding,
+    top_k=3,
+    namespace="2025-2026",
+    filter={"subcategory": {"$in":["Dining Out", "Groceries"]}},
+    include_metadata=True
+)
+for match in results2['matches']:
     print(f"Score: {match['score']:.3f} | {match['metadata']['text']}")
