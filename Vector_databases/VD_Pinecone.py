@@ -3,6 +3,8 @@ from sentence_transformers import SentenceTransformer
 import os
 import pandas as pd
 from dotenv import load_dotenv
+
+
 load_dotenv()
 
 pc=Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
