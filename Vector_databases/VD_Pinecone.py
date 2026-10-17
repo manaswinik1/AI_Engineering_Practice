@@ -26,7 +26,7 @@ else:
 index=pc.Index(INDEX_NAME)
 
 if index.describe_index_stats().total_vector_count ==0:
-    chunks=chunks=financial_data['description'].tolist()
+    chunks=financial_data['description'].tolist()
     embeddings=model.encode(chunks).tolist()
     metadata=financial_data[['date','month','amount','merchant','category','subcategory','payment_method','transaction_type','is_recurring','need_or_want','city']].to_dict("records")
     vectors=[
