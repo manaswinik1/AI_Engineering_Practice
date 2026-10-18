@@ -2,6 +2,10 @@ import chromadb
 from sentence_transformers import SentenceTransformer, CrossEncoder
 import os
 from rank_bm25 import BM25Okapi
+import anthropic
+from dotenv import load_dotenv
+
+#CHUNKING
 def fixed_size_chunks(text, chunk_size=100, overlap=20):
     words=text.split()
     chunks=[]
@@ -104,4 +108,27 @@ rerank_scores=reranker.predict(pairs)
 ranked=sorted(zip(rerank_scores, results), reverse=True)
 top3=[chunk for score, chunk in ranked[:3]]
 for i, (chunk, score) in enumerate(top3, 1):
+    retrived_chunks=[chunk]
     print(f"{i}. Score: {score:.3f} | {chunk}")
+    
+SYSTEM_PROMPT="""You are a document-based QA assistant. 
+Answer the user's question using ONLY the provided context.
+Do not use external knowledge.
+If the context doesn't contain the answer, respond with: "This information is not available in the provided context."
+Keep answers clear and concise.
+"""
+
+def generate_answer(query, retrived_chunks):
+    context=" ".join(retrived_chunks)
+    load_dotenv()
+    api_key=os.environ.get("ANTHROPIC_API_KEY")
+    client=anthropic.Anthropic(api_key=api_key)
+    message=client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=1000,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content":f"Context: \n{context} \n\n Question:{query}"}]
+    )
+    return message.content[0].text
+response=generate_answer(query, retrived_chunks) 
+print(response)
