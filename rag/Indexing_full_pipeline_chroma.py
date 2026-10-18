@@ -39,7 +39,7 @@ def build_index(doc_path, collection_name="rag_docs"):
     else:
         print(f"Using existing index: {collection.count()} chunks")
     return text, collection, model
-
+#RETRIVAL
 text, collection, model= build_index("data/comprehensive_science.txt")
 chunks=fixed_size_chunks(text)
 #dense retrival
@@ -99,7 +99,7 @@ results = hybrid_score_and_rank(dense_chunks, dense_scores, chunks, bm25_scores,
 print("Top results:")
 for i, (chunk, score) in enumerate(results, 1):
     print(f"{i}. Score: {score:.3f} | {chunk[:100]}...")
-
+#RERANKING
 reranker = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
 pairs=[(query, chunk) for chunk, score in results]
 
@@ -110,14 +110,14 @@ top3=[chunk for score, chunk in ranked[:3]]
 for i, (chunk, score) in enumerate(top3, 1):
     retrived_chunks=[chunk]
     print(f"{i}. Score: {score:.3f} | {chunk}")
-    
+#AGUMENTATION
 SYSTEM_PROMPT="""You are a document-based QA assistant. 
 Answer the user's question using ONLY the provided context.
 Do not use external knowledge.
 If the context doesn't contain the answer, respond with: "This information is not available in the provided context."
 Keep answers clear and concise.
 """
-
+#GENERATION
 def generate_answer(query, retrived_chunks):
     context=" ".join(retrived_chunks)
     load_dotenv()
