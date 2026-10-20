@@ -77,7 +77,7 @@ def hybrid_score_and_rank(dense_chunks, dense_scores, chunks, bm25_scores, top_k
 
 # Usage
 top_k = 5
-query = "dopamine and motivation"
+query = "Name the two main brain regions involved in reward processing and dopamine."
 query_embedding = model.encode(query).tolist()
 
 # Dense retrieval
@@ -96,9 +96,6 @@ bm25_scores = bm25.get_scores(query.lower().split())
 # Get ranked results
 results = hybrid_score_and_rank(dense_chunks, dense_scores, chunks, bm25_scores, top_k=5)
 
-print("Top results:")
-for i, (chunk, score) in enumerate(results, 1):
-    print(f"{i}. Score: {score:.3f} | {chunk[:100]}...")
 #RERANKING
 reranker = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
 pairs=[(query, chunk) for chunk, score in results]
@@ -108,18 +105,22 @@ rerank_scores=reranker.predict(pairs)
 ranked=sorted(zip(rerank_scores, results), reverse=True)
 top3=[chunk for score, chunk in ranked[:3]]
 for i, (chunk, score) in enumerate(top3, 1):
-    retrived_chunks=[chunk]
-    print(f"{i}. Score: {score:.3f} | {chunk}")
+    print(f"{i}. {score}: {chunk}")
+
 #AGUMENTATION
 SYSTEM_PROMPT="""You are a document-based QA assistant. 
 Answer the user's question using ONLY the provided context.
 Do not use external knowledge.
+Always start the answer with "Based on [X]..., and the X is the chunk number(s) we used.
+Example: Based on [2] and [3]: The answer is ..."
 If the context doesn't contain the answer, respond with: "This information is not available in the provided context."
 Keep answers clear and concise.
 """
 #GENERATION
-def generate_answer(query, retrived_chunks):
-    context=" ".join(retrived_chunks)
+def generate_answer_with_citations(query, top3):
+    numbered_context=" "
+    for i, chunk in enumerate(top3):
+        numbered_context+=f"[{i}] {chunk}\n\n"
     load_dotenv()
     api_key=os.environ.get("ANTHROPIC_API_KEY")
     client=anthropic.Anthropic(api_key=api_key)
@@ -127,8 +128,9 @@ def generate_answer(query, retrived_chunks):
         model="claude-haiku-4-5-20251001",
         max_tokens=1000,
         system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content":f"Context: \n{context} \n\n Question:{query}"}]
+        messages=[{"role": "user", "content":f"Context: \n{numbered_context} \n\n Question:{query}"}]
     )
     return message.content[0].text
-response=generate_answer(query, retrived_chunks) 
-print(response)
+response=generate_answer_with_citations(query, top3) 
+
+print(f"Result of the RAG pipeline: {response}")
