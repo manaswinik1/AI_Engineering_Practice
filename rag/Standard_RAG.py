@@ -44,7 +44,7 @@ def build_collection(doc_path, collection_name="Personal_Finances"):
         print(f"Using existing index: {collection.count()} chunks")
     return collection
 
-
+query=input("Enter query: ")
 def individual_scoring(query, top_k=5):
     #dense search
     query_embedding=model.encode(query).tolist()
@@ -63,10 +63,10 @@ def individual_scoring(query, top_k=5):
     bm25_scores=bm25.get_scores(query.lower().split())
 
     return dense_chunks,dense_score, bm25_scores
-dense_chunks,dense_score, bm25_scores=individual_scoring("How much did I spend on rent throughout 2024?")
+dense_chunks,dense_score, bm25_scores=individual_scoring(query)
 
 
-def Consolidated_scores(dense_chunks, dense_score, bm25_scores):
+def Consolidated_scores(dense_chunks, dense_score, bm25_scores, top_k=5):
     chunk_scores={}
     chunks=fixed_size_chunks()
     for chunk, score in zip(dense_chunks, dense_score): 
@@ -75,7 +75,47 @@ def Consolidated_scores(dense_chunks, dense_score, bm25_scores):
     for i, score in enumerate(bm25_scores):
         normalized=(score/max(bm25_scores)+1e-9)
         chunk_scores[chunks[i]]=chunk_scores.get(chunks[i], 0) + normalized*0.3
-    return chunk_scores
-chunk_scores=Consolidated_scores(dense_chunks, dense_score, bm25_scores)
-print(chunk_scores)
 
+    ranked = sorted(chunk_scores.items(), key=lambda x:x[1], reverse=True)
+    return [(chunk, score) for chunk, score in ranked[:top_k]]
+
+
+
+def rerank(query): 
+    reranker=CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+    results=Consolidated_scores(dense_chunks, dense_score, bm25_scores)
+    pairs=[(query, chunk) for chunk, score in results]
+    rerank_scores=reranker.predict(pairs)
+    ranked=sorted(zip(rerank_scores, results), reverse=True)
+    Top5=[chunk for score, chunk in ranked[:5]]
+    return Top5
+Top5=rerank(query)
+for i, (chunk, score) in enumerate(Top5,1):
+    print(f"{i}. {score}:{chunk}\n\n")
+
+SYSTEM_PROMPT="""You are a document-based QA assistant. 
+Answer the user's question using ONLY the provided context.
+Do not use external knowledge.
+Always start the answer with "Based on [X]..., and the X is the chunk number(s) we used.
+Example: Based on [2] and [3]: The answer is ..."
+If the context doesn't contain the answer, respond with: "This information is not available in the provided context."
+Keep answers clear and concise.
+"""
+
+def geration_with_citations(query, Top5):
+    numbered_context=' '
+    for i, chunk in enumerate(Top5):
+        numbered_context+=f"[{i}] {chunk}\n\n"
+    load_dotenv()
+    api_key=os.environ.get("ANTHROPIC_API_KEY")
+    client=anthropic.Anthropic(api_key=api_key)
+    message=client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=1234,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content":f"Content: \n{numbered_context} \n\n Question: {query}"}]
+    )
+    return message.content[0].text
+Top5=rerank(query)
+response=geration_with_citations(query, Top5)
+print(response)
